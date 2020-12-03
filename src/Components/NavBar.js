@@ -6,20 +6,15 @@ import { AuthContext } from '../Context/AuthContext'
 
 
 const NavBar = props => {
-    const { 
-        isAuthenticated, 
-        user, 
-        setIsAuthenticated, 
-        setUser 
-    } = useContext(AuthContext)
-
-    const onClickLogOutHandler = () => {
-        AuthService.logout().then(data => {
-            if(data.sucess){
+    const {isAuthenticated,user,setIsAuthenticated,setUser} = useContext(AuthContext);
+    
+    const onClickLogOutHandler = ()=>{
+        AuthService.logout().then(data=>{
+            if(data.success){
                 setUser(data.user);
                 setIsAuthenticated(false);
             }
-        })
+        });
     }
 
     const unauthenticatedNavBar = () => {
@@ -33,7 +28,7 @@ const NavBar = props => {
                 
                 {listUnauthenticatedItems.map(elem => {
                     return <Link key={ elem } to={elem === 'Home' ? '' : {pathname: `/${elem.toLowerCase()}`} }>
-                              <li className="nav-item nav-link text-light" key={ elem }>
+                              <li className="nav-item nav-link" key={ elem }>
                                 { elem }
                               </li>
                             </Link>
@@ -52,38 +47,34 @@ const NavBar = props => {
             <>
                 {listAuthenticatedItems.map(elem => {
                     return <Link key={ elem } to={elem === 'Home' ? '' : {pathname: `/${elem.toLowerCase()}`} }>
-                              <li className="nav-item nav-link text-light" key={ elem }>
+                              <li className="nav-item nav-link" key={ elem }>
                                 { elem }
                               </li>
                             </Link>
                             
                 })}
                 {
-                    user.role === "admin" ?
-                        <Link to="/admin">
-                            <li className="nav-item nav-link text-light">
-                                Admin
-                            </li>
-                        </Link> : null
+                    user.role === "admin" ? 
+                    <Link to="/admin">
+                        <li className="nav-item nav-link">
+                            Admin
+                        </li>
+                    </Link> : null
                 }
                 <button type="button" 
-                        className="btn btn-link nav-item nav-link text-light" 
-                        onClick={onClickLogOutHandler}>
-                </button>
+                        className="btn btn-link nav-item nav-link" 
+                        onClick={onClickLogOutHandler}>Logout</button>
             </>
         )
     }
-
     return(
-        <nav className="navbar navbar-expand-lg navbar-light bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link to="/">
-                <div className="navbar-brand text-light">
-                    ToDo App
-                </div>
+                <div className="navbar-brand">ToDo App</div>
             </Link>
             <div className="collapse navbar-collapse" id="navbarText">
                 <ul className="navbar-nav mr-auto">
-                   { !isAuthenticated ? unauthenticatedNavBar() : authenticatedNavBar()}
+                    { !isAuthenticated ? unauthenticatedNavBar() : authenticatedNavBar()}
                 </ul>
             </div>
         </nav>

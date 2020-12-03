@@ -1,16 +1,24 @@
-import React from 'react';
-import NavBar from './Components/NavBar'
-import { BrowserRouter as Router, Route  } from 'react-router-dom'
-import Home from './Components/Home'
-import Login from './Components/Login'
 
-const App = () => {
-  
+import React from 'react';
+import Navbar from './Components/NavBar';
+import Login from './Components/Login';
+import Home from './Components/Home';
+import Todos from './Components/Todos';
+import Register from './Components/Register';
+import Admin  from './Components/Admin';
+import PrivateRoute from './hocs/PrivateRoute';
+import UnPrivateRoute from './hocs/UnPrivateRoute';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+function App() {
   return (
     <Router>
-      <NavBar />
-      <Route exact path="/" component={Home} />
-      <Route path="/login" component={Login}/>
+      <Navbar/>
+      <Route exact path="/" component={Home}/>
+      <UnPrivateRoute path="/login" component={Login}/>
+      <UnPrivateRoute path="/register" component={Register}/>
+      <PrivateRoute path="/todos" roles={["user","admin"]} component={Todos}/>
+      <PrivateRoute path="/admin" roles={["admin"]} component={Admin}/>
     </Router>
   );
 }
