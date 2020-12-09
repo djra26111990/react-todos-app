@@ -28,6 +28,14 @@ const Login = props=>{
         });
     }
 
+    const onClickHandler = (e) => {
+        e.preventDefault();
+        AuthService.loginGithub().then(data => {
+            window.location.href = 'http://localhost:5000/user/auth/github';
+            return null;
+        })
+    }
+
     return(
         <div>
             <form onSubmit={onSubmit}>
@@ -46,6 +54,7 @@ const Login = props=>{
                        placeholder="Enter Password"/>
                 <button className="btn btn-lg btn-primary btn-block" 
                         type="submit">Log in </button>
+                <button className="btn btn-lg btn-primary btn-block" onClick={onClickHandler}>Log in with GitHub</button>
             </form>
             {message ? <Message message={message}/> : null}
         </div>

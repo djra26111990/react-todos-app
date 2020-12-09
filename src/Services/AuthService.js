@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     login : async user =>{
-        const res = await fetch('/user/login', {
+        const res = await fetch('http://localhost:5000/user/login', {
             method: "post",
             body: JSON.stringify(user),
             headers: {
@@ -15,7 +15,7 @@ export default {
             return { isAuthenticated: false, user: { username: "", role: "" } };
     },
     register : async user =>{
-        const res = await fetch('/user/register', {
+        const res = await fetch('http://localhost:5000/user/register', {
             method: "post",
             body: JSON.stringify(user),
             headers: {
@@ -26,17 +26,22 @@ export default {
         return data;
     },
     logout : async ()=>{
-        const res = await fetch('/user/logout');
+        const res = await fetch('http://localhost:5000/user/logout');
         const data = await res.json();
         return data;
     },
     isAuthenticated : async ()=>{
-        const res = await fetch('/user/authenticated');
+        const res = await fetch('http://localhost:5000/user/authenticated');
         if (res.status !== 401)
             return res.json().then(data => data);
 
         else
             return { isAuthenticated: false, user: { username: "", role: "" } };
+    },
+    loginGithub: ()=> {
+        return fetch('http://localhost:5000/user/auth/github', {
+            mode: 'no-cors'
+        });
     }
 
 }
